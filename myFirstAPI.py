@@ -10,7 +10,7 @@ def save_data(external_data):
     database = 'DBcomments.db'
     conn = sqlite3.connect(database)
 
-    #conveting dictionary  to a table
+    #conveting json -> dictionary 
 
     dict_table = {
         'postId':[],
@@ -22,7 +22,7 @@ def save_data(external_data):
     for dict_ in external_data:
         for key in dict_table.keys():
             dict_table[key].append(dict_[key])
-    #print(dict_table)
+    #dictionary -> panda table
     dataframe = pd.DataFrame(dict_table)
     dataframe.to_sql(name='Users', con=conn, if_exists='replace')
 
@@ -41,7 +41,7 @@ def get_external_data():
     #Here I'm returning the data and status
     return jsonify(
         {'Status: ':{"Status code":response.status_code,'Progress: ':"Data downloaded to sqlite database"}})
-
+#runs the flasks as a server
 if __name__=="__main__":
     app.run()
 
